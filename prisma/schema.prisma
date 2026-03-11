@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  role          String    @default("CANDIDATE")
+  locale        String    @default("en")
+  emailVerified Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  candidateProfile   CandidateProfile?
+  follows            Follow[]
+  savedJobs          SavedJob[]
+  eventRegistrations EventRegistration[]
+  companyClaims      CompanyClaim[]
+  reviewedClaims     CompanyClaim[]      @relation("ReviewedBy")
+  newsletters        Newsletter[]
+
+  @@map("users")
+}
+
+model CandidateProfile {
+  id                 String  @id @default(cuid())
+  userId             String  @unique
+  headline           String?
+  experienceLevel    String  @default("STUDENT")
+  linkedinUrl        String?
+  skills             String  @default("[]")
+  roleInterests      String  @default("[]")
+  industries         String  @default("[]")
+  preferredLocations String  @default("[]")
+  emailDigest        Boolean @default(true)
+  emailEvents        Boolean @default(true)
+  emailNewsletter    Boolean @default(false)
+  onboardingComplete Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("candidate_profiles")
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String?
+  industry     String
+  website      String?
+  linkedinUrl  String?
+  logo         String?
+  coverImage   String?
+  size         String   @default("SMALL")
+  founded      Int?
+  locations    String   @default("[]")
+  technologies String   @default("[]")
+  status       String   @default("AUTO_GENERATED")
+  featured     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  jobs      JobListing[]
+  events    Event[]
+  followers Follow[]
+  claims    CompanyClaim[]
+  gallery   GalleryImage[]
+
+  @@map("companies")
+}
+
+model CompanyClaim {
+  id          String    @id @default(cuid())
+  companyId   String
+  userId      String
+  fullName    String
+  jobTitle    String
+  workEmail   String
+  linkedinUrl String?
+  message     String?
+  status      String    @default("PENDING")
+  reviewedBy  String?
+  reviewNote  String?
+  createdAt   DateTime  @default(now())
+  reviewedAt  DateTime?
+
+  company  Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewer User?   @relation("ReviewedBy", fields: [reviewedBy], references: [id])
+
+  @@map("company_claims")
+}
+
+model JobListing {
+  id          String    @id @default(cuid())
+  companyId   String
+  title       String
+  location    String?
+  type        String    @default("ONSITE")
+  externalUrl String
+  status      String    @default("ACTIVE")
+  postedAt    DateTime  @default(now())
+  expiresAt   DateTime?
+
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  savedBy   SavedJob[]
+
+  @@map("job_listings")
+}
+
+model Event {
+  id              String    @id @default(cuid())
+  companyId       String?
+  title           String
+  description     String?
+  type            String    @default("WORKSHOP")
+  date            DateTime
+  startTime       String
+  endTime         String?
+  location        String?
+  isOnline        Boolean   @default(false)
+  registrationUrl String?
+  capacity        Int?
+  createdAt       DateTime  @default(now())
+
+  company       Company?            @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  registrations EventRegistration[]
+
+  @@map("events")
+}
+
+model Follow {
+  id        String   @id @default(cuid())
+  userId    String
+  companyId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@map("follows")
+}
+
+model SavedJob {
+  id           String   @id @default(cuid())
+  userId       String
+  jobListingId String
+  savedAt      DateTime @default(now())
+
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job  JobListing @relation(fields: [jobListingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobListingId])
+  @@map("saved_jobs")
+}
+
+model EventRegistration {
+  id           String   @id @default(cuid())
+  userId       String
+  eventId      String
+  registeredAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@map("event_registrations")
+}
+
+model GalleryImage {
+  id        String  @id @default(cuid())
+  companyId String
+  url       String
+  caption   String?
+  order     Int     @default(0)
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("gallery_images")
+}
+
+model Newsletter {
+  id             String    @id @default(cuid())
+  subject        String
+  content        String
+  status         String    @default("DRAFT")
+  sentAt         DateTime?
+  recipientCount Int?
+  createdBy      String
+  createdAt      DateTime  @default(now())
+
+  creator User @relation(fields: [createdBy], references: [id])
+
+  @@map("newsletters")
+}
