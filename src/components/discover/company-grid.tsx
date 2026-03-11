@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CompanyCard } from "@/components/shared/company-card";
 import type { CompanyCardData } from "@/components/shared/company-card";
@@ -55,15 +56,17 @@ export function CompanyGrid({ companies, total, loading }: CompanyGridProps) {
 
   if (companies.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+        <Search className="size-12 text-muted-foreground/40" />
         <p className="text-lg text-muted-foreground">{t("noResults")}</p>
+        <p className="text-sm text-muted-foreground/70">Try different filters or search terms</p>
       </div>
     );
   }
 
   return (
     <div>
-      <p className="mb-4 text-sm text-muted-foreground">
+      <p className="mb-4 text-right text-sm text-muted-foreground transition-opacity">
         {total} {total === 1 ? "company" : "companies"}
       </p>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
