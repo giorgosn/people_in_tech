@@ -23,13 +23,13 @@ export function StatsCard({
   className,
 }: StatsCardProps) {
   return (
-    <Card className={cn("border-border/50", className)}>
+    <Card className={cn("border-white/[0.06] bg-card", className)}>
       <CardContent className="flex items-center gap-4">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-          <Icon className="size-5 text-primary" />
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-surface-2">
+          <Icon className="size-5 text-muted-foreground" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-2xl font-bold tracking-tight text-foreground">
+          <p className="text-2xl font-bold tracking-tight text-foreground">
             {value.toLocaleString()}
           </p>
           <p className="text-sm text-muted-foreground">{label}</p>
