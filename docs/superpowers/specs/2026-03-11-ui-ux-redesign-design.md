@@ -33,17 +33,39 @@ Same hue, lower chroma (0.27→0.19), slightly lower lightness. Reads as sophist
 - Hover: `rgba(255, 255, 255, 0.12)`
 - Featured elements: gradient border (white 8% → 3%)
 
-### Shadows
+### Integration with Tailwind/shadcn Token Architecture
 
-Replace all colored glow effects with neutral layered shadows:
+New surface tokens are added as CSS custom properties in `globals.css` within the existing `:root` / `.dark` block and registered in the `@theme inline` block for Tailwind utility access:
 
 ```css
---shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
---shadow-md: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
---shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1), 0 16px 32px rgba(0, 0, 0, 0.05);
+/* In globals.css :root/.dark */
+--surface-2: oklch(0.17 0.01 260);
+--surface-3: oklch(0.21 0.01 260);
+
+/* In @theme inline */
+--color-surface-2: var(--surface-2);
+--color-surface-3: var(--surface-3);
 ```
 
-Remove `.card-glow` and all `--shadow-glow-*` tokens.
+This enables `bg-surface-2`, `bg-surface-3` utilities. Existing `--card`, `--accent`, `--muted`, `--popover` tokens remain and are updated to match new values.
+
+### Shadows
+
+Replace all colored glow effects with neutral layered shadows. Use custom property names that don't collide with Tailwind's built-in shadow utilities:
+
+```css
+/* In globals.css */
+--shadow-elevation-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+--shadow-elevation-md: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+--shadow-elevation-lg: 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1), 0 16px 32px rgba(0, 0, 0, 0.05);
+
+/* Register in @theme inline */
+--shadow-elevation-sm: var(--shadow-elevation-sm);
+--shadow-elevation-md: var(--shadow-elevation-md);
+--shadow-elevation-lg: var(--shadow-elevation-lg);
+```
+
+Remove `.card-glow` class from `globals.css` and all component usages. Remove all `--shadow-glow-*` tokens from the `@theme inline` block.
 
 ### Transitions
 
@@ -118,6 +140,7 @@ Replace `card-glow` with:
 - **Nav link hover:** pill-shaped bg highlight (`white/6%`) with color brighten to white. `--transition-fast`
 - **Active state:** white text + `white/8%` bg pill
 - **Sign In button:** promoted to solid lime button (primary CTA)
+- **Logged-in user menu:** avatar circle (32px) with dropdown. Same frosted glass + border style on dropdown. Menu items follow pill hover pattern.
 - **Language switcher:** subtle bordered pill instead of plain text
 
 ### Mobile
@@ -237,8 +260,8 @@ Replace `card-glow` with:
 
 ### Gallery Tab
 
-- Masonry-style grid
-- Images get subtle `scale(1.02)` on hover
+- CSS columns layout (`columns-2 md:columns-3 gap-4`) — simplest masonry-like approach, no JS library needed. Each image is `break-inside-avoid` with `mb-4`.
+- Images get subtle `scale(1.02)` on hover with `--transition-normal`
 
 ---
 
@@ -264,7 +287,20 @@ Replace `card-glow` with:
 
 ---
 
-## 10. Dashboards (Candidate / Company / Admin)
+## 10. Onboarding Wizard
+
+The 3-step onboarding flow (`step-about.tsx`, `step-interests.tsx`, `step-preferences.tsx`) follows the same design system:
+
+- **Wizard container:** surface-1 card, centered on page (same as auth card pattern but wider — `max-w-[560px]`)
+- **Step indicator:** horizontal progress bar with 3 dots. Active dot is lime, completed dots are lime filled, upcoming dots are `white/10%`
+- **Inputs/selects:** same inset input styling (page bg, focus ring)
+- **Multi-select chips:** consistent badge style (`white/6%` bg, `white/4%` border). Selected chips get lime border + lime text
+- **Navigation buttons:** "Back" as ghost, "Next"/"Complete" as primary lime
+- **Step transitions:** subtle slide + fade between steps (translateX + opacity, `--transition-slow`)
+
+---
+
+## 11. Dashboards (Candidate / Company / Admin)
 
 ### Sidebar Navigation
 
@@ -289,22 +325,36 @@ Replace `card-glow` with:
 - Recharts with updated tokens: primary lime, secondary blue, muted gray
 - Grid lines at `white/4%`
 
+### Candidate Dashboard
+
+- **Followed Companies:** uses company card grid (same as discover, `md:grid-cols-2 lg:grid-cols-3`)
+- **Saved Jobs:** uses job card list layout (single column)
+- **Profile Settings:** same form styling as auth (inset inputs, focus rings), grouped in surface-1 sections
+
+### Company Dashboard
+
+- **Profile Editor:** form sections in surface-1 cards, image upload area with dashed border
+- **Job Manager:** table with new row hover + status badges
+- **Event Manager:** same table pattern
+- **Analytics:** charts with updated color tokens
+
 ### Admin-Specific
 
 - Claims queue status badges: Pending (yellow), Approved (green), Rejected (red) — using semantic color tokens
+- All admin tables/forms follow the same patterns above
 
-### Forms
+### Forms (all dashboards)
 
 - Same input styling as auth pages (inset bg, focus ring)
 
 ---
 
-## 11. Global Patterns
+## 12. Global Patterns
 
 ### Page Transitions
 
 - Subtle fade-in on route change: `opacity 0→1, translateY(4px→0), 200ms`
-- CSS animation, no JS library needed
+- Implementation: use Next.js `template.tsx` in `[locale]/(main)/` layout group. `template.tsx` re-mounts on navigation, triggering a CSS `@keyframes fade-in-up` animation on the wrapper div. No JS animation library needed.
 
 ### Button Loading States
 
