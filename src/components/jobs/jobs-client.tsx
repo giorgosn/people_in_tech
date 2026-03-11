@@ -72,23 +72,23 @@ export function JobsClient({ initialJobs, initialTotal }: JobsClientProps) {
 
       {/* Job list */}
       {loading ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-48 rounded-xl" />
           ))}
         </div>
       ) : jobs.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-          <Briefcase className="size-12 text-muted-foreground/50" />
-          <p className="text-lg font-medium text-muted-foreground">
+          <Briefcase className="size-12 text-muted-foreground/40" />
+          <p className="text-lg font-semibold text-foreground">
             No jobs found
           </p>
-          <p className="text-sm text-muted-foreground/70">
+          <p className="text-sm text-muted-foreground">
             Try different filters or search terms
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col gap-4">
           {jobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))}

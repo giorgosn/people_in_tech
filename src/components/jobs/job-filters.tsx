@@ -3,6 +3,7 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface JobFiltersProps {
   search: string;
@@ -24,6 +25,12 @@ const sortOptions = [
   { value: "newest", label: "Newest" },
   { value: "company", label: "Company Name" },
 ];
+
+function chipClass(active: boolean) {
+  return active
+    ? "border-primary text-primary bg-transparent hover:bg-primary/10"
+    : "bg-white/[0.04] border-white/[0.08] text-muted-foreground hover:border-white/[0.12]";
+}
 
 export function JobFilters({
   search,
@@ -53,10 +60,10 @@ export function JobFilters({
           {typeOptions.map((option) => (
             <Button
               key={option.value}
-              variant={type === option.value ? "default" : "outline"}
+              variant="outline"
               size="sm"
               onClick={() => onTypeChange(option.value)}
-              className="rounded-full text-xs"
+              className={cn("rounded-full text-xs", chipClass(type === option.value))}
             >
               {option.label}
             </Button>
@@ -69,10 +76,10 @@ export function JobFilters({
           {sortOptions.map((option) => (
             <Button
               key={option.value}
-              variant={sort === option.value ? "secondary" : "ghost"}
+              variant="ghost"
               size="sm"
               onClick={() => onSortChange(option.value)}
-              className="text-xs"
+              className={cn("text-xs", sort === option.value && "text-primary")}
             >
               {option.label}
             </Button>
