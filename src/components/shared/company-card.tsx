@@ -2,8 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Heart, Briefcase, CheckCircle, AlertCircle, MapPin } from "lucide-react";
+import { Heart, Briefcase, CheckCircle, MapPin } from "lucide-react";
 
 export interface CompanyCardData {
   name: string;
@@ -14,22 +13,6 @@ export interface CompanyCardData {
   status: string;
   followerCount: number;
   jobCount: number;
-}
-
-function getIndustryColor(industry: string): string {
-  const colors: Record<string, string> = {
-    Fintech: "bg-emerald-600",
-    "E-commerce": "bg-blue-600",
-    SaaS: "bg-violet-600",
-    AI: "bg-amber-600",
-    Healthtech: "bg-rose-600",
-    Edtech: "bg-cyan-600",
-    Cybersecurity: "bg-red-600",
-    Gaming: "bg-purple-600",
-    Logistics: "bg-orange-600",
-    Greentech: "bg-green-600",
-  };
-  return colors[industry] || "bg-primary/80";
 }
 
 function parseFirstLocation(locationsJson: string): string | null {
@@ -49,7 +32,7 @@ export function CompanyCard({ company }: { company: CompanyCardData }) {
   const firstLetter = company.name.charAt(0).toUpperCase();
 
   return (
-    <Card className="card-glow rounded-xl border-border bg-card transition-all">
+    <Card className="rounded-xl border-white/[0.06] bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-white/[0.12] hover:bg-[oklch(0.16_0.01_260)]">
       <CardContent className="flex flex-col gap-3">
         <div className="flex items-start gap-3">
           {company.logo ? (
@@ -59,22 +42,25 @@ export function CompanyCard({ company }: { company: CompanyCardData }) {
               className="size-10 rounded-lg object-cover"
             />
           ) : (
-            <div
-              className={`flex size-10 items-center justify-center rounded-lg text-sm font-bold text-white ${getIndustryColor(company.industry)}`}
-            >
+            <div className="flex size-10 items-center justify-center rounded-lg bg-surface-2 text-sm font-bold text-foreground">
               {firstLetter}
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <Link
-              href={`/companies/${company.slug}`}
-              className="block truncate font-semibold text-foreground hover:text-primary transition-colors"
-            >
-              {company.name}
-            </Link>
-            <Badge variant="secondary" className="mt-1">
+            <div className="flex items-center gap-1.5">
+              <Link
+                href={`/companies/${company.slug}`}
+                className="block truncate font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {company.name}
+              </Link>
+              {company.status === "VERIFIED" && (
+                <CheckCircle className="size-3.5 shrink-0 text-[oklch(0.85_0.15_140)]" />
+              )}
+            </div>
+            <span className="mt-1 inline-flex items-center rounded-md bg-white/[0.06] border border-white/[0.04] px-2 py-0.5 text-xs text-muted-foreground">
               {company.industry}
-            </Badge>
+            </span>
           </div>
         </div>
 
@@ -85,11 +71,11 @@ export function CompanyCard({ company }: { company: CompanyCardData }) {
           </div>
         )}
 
-        <div className="flex items-center justify-between border-t border-border pt-3">
+        <div className="flex items-center justify-between border-t border-white/[0.06] pt-3">
           <div className="flex items-center gap-3">
             <span
               className={`flex items-center gap-1 text-xs font-medium ${
-                company.jobCount > 0 ? "text-primary" : "text-muted-foreground"
+                company.jobCount > 0 ? "text-[oklch(0.85_0.15_140)]" : "text-muted-foreground"
               }`}
             >
               <Briefcase className="size-3.5" />
@@ -100,22 +86,11 @@ export function CompanyCard({ company }: { company: CompanyCardData }) {
               {company.followerCount}
             </span>
           </div>
-          <Badge
-            variant={company.status === "VERIFIED" ? "default" : "outline"}
-            className="text-[10px]"
-          >
-            {company.status === "VERIFIED" ? (
-              <span className="flex items-center gap-0.5">
-                <CheckCircle className="size-3" />
-                Verified
-              </span>
-            ) : (
-              <span className="flex items-center gap-0.5">
-                <AlertCircle className="size-3" />
-                Auto-generated
-              </span>
-            )}
-          </Badge>
+          {company.status !== "VERIFIED" && (
+            <span className="inline-flex items-center rounded-md bg-white/[0.06] border border-white/[0.04] px-2 py-0.5 text-xs text-muted-foreground">
+              Auto-generated
+            </span>
+          )}
         </div>
       </CardContent>
     </Card>
