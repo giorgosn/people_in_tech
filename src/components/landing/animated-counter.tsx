@@ -62,12 +62,11 @@ export function AnimatedCounter({
   }, [animate]);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="font-mono text-3xl font-bold text-primary md:text-5xl">
-        {count}
-        {suffix}
+    <div ref={ref} className="flex flex-col items-center justify-center px-4 py-2">
+      <div className="text-2xl font-bold text-primary md:text-3xl">
+        {count}{suffix}
       </div>
-      <div className="mt-1 text-sm text-muted-foreground">{label}</div>
+      <div className="mt-1 text-xs text-muted-foreground">{label}</div>
     </div>
   );
 }
