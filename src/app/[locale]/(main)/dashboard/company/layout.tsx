@@ -53,8 +53,8 @@ function SidebarNav({
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
               isActive
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                ? "bg-white/[0.06] text-white"
+                : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
             )}
           >
             <Icon className="size-4 shrink-0" />
