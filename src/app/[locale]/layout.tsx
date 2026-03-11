@@ -5,6 +5,7 @@ import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { inter, jetbrainsMono } from "@/lib/fonts";
+import { SessionProvider } from "@/components/providers/session-provider";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default async function LocaleLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <SessionProvider>{children}</SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>
