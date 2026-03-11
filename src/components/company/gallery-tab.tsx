@@ -39,23 +39,19 @@ export function GalleryTab({ images, isVerified }: GalleryTabProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {images
-        .sort((a, b) => a.order - b.order)
-        .map((image) => (
-          <div key={image.id} className="overflow-hidden rounded-xl">
-            <img
-              src={image.url}
-              alt={image.caption || "Gallery image"}
-              className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-105"
-            />
-            {image.caption && (
-              <p className="mt-2 text-sm text-muted-foreground">
-                {image.caption}
-              </p>
-            )}
-          </div>
-        ))}
+    <div className="columns-2 gap-4 md:columns-3">
+      {images.sort((a, b) => a.order - b.order).map((image) => (
+        <div key={image.id} className="mb-4 break-inside-avoid overflow-hidden rounded-xl">
+          <img
+            src={image.url}
+            alt={image.caption || "Gallery image"}
+            className="w-full object-cover transition-transform duration-200 hover:scale-[1.02]"
+          />
+          {image.caption && (
+            <p className="mt-2 text-sm text-muted-foreground">{image.caption}</p>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

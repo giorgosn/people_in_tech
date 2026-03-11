@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { AboutTab } from "./about-tab";
 import { RolesTab } from "./roles-tab";
 import { EventsTab } from "./events-tab";
@@ -58,25 +57,41 @@ export function CompanyTabs({
   return (
     <Tabs defaultValue="about">
       <TabsList className="w-full justify-start">
-        <TabsTrigger value="about">{t("about")}</TabsTrigger>
-        <TabsTrigger value="roles" className="gap-1.5">
+        <TabsTrigger
+          value="about"
+          className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-white transition-colors duration-150"
+        >
+          {t("about")}
+        </TabsTrigger>
+        <TabsTrigger
+          value="roles"
+          className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-white transition-colors duration-150"
+        >
           {t("openRoles")}
           {jobs.length > 0 && (
-            <Badge variant="default" className="ml-1 h-4 min-w-4 px-1 text-[10px]">
+            <span className="ml-1.5 inline-flex items-center justify-center rounded-full bg-white/[0.06] px-1.5 text-[10px] font-medium text-muted-foreground">
               {jobs.length}
-            </Badge>
+            </span>
           )}
         </TabsTrigger>
-        <TabsTrigger value="events" className="gap-1.5">
+        <TabsTrigger
+          value="events"
+          className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-white transition-colors duration-150"
+        >
           {t("events")}
           {events.length > 0 && (
-            <Badge variant="default" className="ml-1 h-4 min-w-4 px-1 text-[10px]">
+            <span className="ml-1.5 inline-flex items-center justify-center rounded-full bg-white/[0.06] px-1.5 text-[10px] font-medium text-muted-foreground">
               {events.length}
-            </Badge>
+            </span>
           )}
         </TabsTrigger>
         {isVerified && (
-          <TabsTrigger value="gallery">{t("gallery")}</TabsTrigger>
+          <TabsTrigger
+            value="gallery"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-white transition-colors duration-150"
+          >
+            {t("gallery")}
+          </TabsTrigger>
         )}
       </TabsList>
 
