@@ -17,16 +17,16 @@ export function DashboardClient({ companies, savedJobs, profile }: DashboardClie
   return (
     <div>
       <Tabs defaultValue="following">
-        <TabsList className="mb-6 w-full sm:w-auto">
-          <TabsTrigger value="following" className="gap-1.5">
+        <TabsList className="mb-6 w-full sm:w-auto bg-transparent gap-1">
+          <TabsTrigger value="following" className="gap-1.5 rounded-lg data-[state=active]:bg-white/[0.06] data-[state=active]:text-white">
             <Heart className="size-4" />
             Following
           </TabsTrigger>
-          <TabsTrigger value="saved-jobs" className="gap-1.5">
+          <TabsTrigger value="saved-jobs" className="gap-1.5 rounded-lg data-[state=active]:bg-white/[0.06] data-[state=active]:text-white">
             <Bookmark className="size-4" />
             Saved Jobs
           </TabsTrigger>
-          <TabsTrigger value="settings" className="gap-1.5">
+          <TabsTrigger value="settings" className="gap-1.5 rounded-lg data-[state=active]:bg-white/[0.06] data-[state=active]:text-white">
             <Settings className="size-4" />
             Settings
           </TabsTrigger>

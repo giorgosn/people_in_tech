@@ -300,7 +300,7 @@ export function JobManager() {
       ) : (
         <div className="rounded-lg border border-border">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-white/[0.05]">
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Location</TableHead>
@@ -312,7 +312,7 @@ export function JobManager() {
             </TableHeader>
             <TableBody>
               {jobs.map((job) => (
-                <TableRow key={job.id}>
+                <TableRow key={job.id} className="border-white/[0.06] hover:bg-white/[0.03]">
                   <TableCell className="font-medium">{job.title}</TableCell>
                   <TableCell>{job.location || "Not specified"}</TableCell>
                   <TableCell>

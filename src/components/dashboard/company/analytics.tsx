@@ -31,10 +31,11 @@ interface AnalyticsData {
 const PIE_COLORS = ["#9fef00", "#38bdf8", "#f59e0b", "#a78bfa", "#fb7185"];
 
 const tooltipStyle = {
-  backgroundColor: "#1e1b2e",
-  border: "1px solid #2d3a4d",
+  backgroundColor: "oklch(0.14 0.01 260)",
+  border: "1px solid rgba(255,255,255,0.06)",
   borderRadius: "8px",
   color: "#f8fafc",
+  fontSize: "12px",
 };
 
 export function Analytics() {
@@ -109,7 +110,7 @@ export function Analytics() {
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={formattedViews}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                   <XAxis
                     dataKey="date"
                     stroke="#64748b"
@@ -148,7 +149,7 @@ export function Analytics() {
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={formattedGrowth}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                   <XAxis
                     dataKey="date"
                     stroke="#64748b"
@@ -206,7 +207,7 @@ export function Analytics() {
                 <BarChart data={data.jobClicks} layout="vertical">
                   <CartesianGrid
                     strokeDasharray="3 3"
-                    stroke="#1e293b"
+                    stroke="rgba(255,255,255,0.04)"
                     horizontal={false}
                   />
                   <XAxis

@@ -72,7 +72,7 @@ function SidebarContent({
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 px-4 py-4 border-b border-border">
-        <ShieldCheck className="size-5 text-[#9fef00]" />
+        <ShieldCheck className="size-5 text-primary" />
         <span className="font-semibold text-foreground">Admin Panel</span>
         <Badge variant="secondary" className="ml-auto text-[10px]">
           ADMIN
@@ -86,10 +86,10 @@ function SidebarContent({
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150 ${
                 isActive
-                  ? "bg-[#9fef00]/10 text-[#9fef00]"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "bg-white/[0.06] text-white"
+                  : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
               }`}
             >
               <Icon className="size-4" />
@@ -186,7 +186,7 @@ export function AdminDashboardClient({
             </SheetContent>
           </Sheet>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="size-5 text-[#9fef00]" />
+            <ShieldCheck className="size-5 text-primary" />
             <span className="font-semibold text-foreground">Admin</span>
           </div>
         </header>
