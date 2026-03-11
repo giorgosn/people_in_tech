@@ -182,7 +182,7 @@ export function ClaimsQueue() {
                 <div className="flex items-start justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      <Building2 className="size-4 text-[#9fef00]" />
+                      <Building2 className="size-4 text-primary" />
                       {claim.companyName}
                     </CardTitle>
                     <div className="flex items-center gap-2 mt-1">
@@ -232,7 +232,7 @@ export function ClaimsQueue() {
                         href={claim.linkedinUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#9fef00] hover:underline truncate"
+                        className="text-primary hover:underline truncate"
                       >
                         {claim.linkedinUrl}
                       </a>

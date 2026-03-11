@@ -364,7 +364,7 @@ export function EventsManager() {
                     {event.companyId ? (
                       event.companyName
                     ) : (
-                      <Badge className="bg-[#9fef00]/20 text-[#9fef00]">
+                      <Badge className="bg-primary/20 text-primary">
                         Platform
                       </Badge>
                     )}
