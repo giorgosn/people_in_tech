@@ -10,7 +10,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { LanguageSwitcher } from "./language-switcher";
 import { UserMenu } from "./user-menu";
@@ -71,12 +70,16 @@ export function Navbar() {
               <UserMenu />
             ) : (
               <>
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white" render={<Link href="/login" />}>
-                  {t("signIn")}
-                </Button>
-                <Button size="sm" render={<Link href="/register" />}>
-                  {t("getStarted")}
-                </Button>
+                <Link href="/login">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white">
+                    {t("signIn")}
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button size="sm">
+                    {t("getStarted")}
+                  </Button>
+                </Link>
               </>
             )}
           </div>
@@ -84,12 +87,10 @@ export function Navbar() {
           {/* Mobile Hamburger */}
           <div className="md:hidden">
             <Sheet>
-              <SheetTrigger
-                render={
-                  <Button variant="ghost" size="icon" aria-label="Open menu" />
-                }
-              >
-                <Menu className="size-5" />
+              <SheetTrigger>
+                <Button variant="ghost" size="icon" aria-label="Open menu">
+                  <Menu className="size-5" />
+                </Button>
               </SheetTrigger>
               <SheetContent side="right" className="max-w-[280px] w-[85vw] p-0">
                 <SheetHeader className="border-b border-white/[0.06] p-4">
@@ -101,9 +102,9 @@ export function Navbar() {
                   {navLinks.map((link) => {
                     const isActive = pathname.startsWith(link.href);
                     return (
-                      <SheetClose
+                      <Link
                         key={link.href}
-                        render={<Link href={link.href} />}
+                        href={link.href}
                         className={cn(
                           "flex items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors min-h-[44px]",
                           isActive
@@ -112,7 +113,7 @@ export function Navbar() {
                         )}
                       >
                         {t(link.labelKey)}
-                      </SheetClose>
+                      </Link>
                     );
                   })}
                 </div>
@@ -122,28 +123,25 @@ export function Navbar() {
                       <div className="text-sm font-medium text-foreground">
                         {session.user.name}
                       </div>
-                      <SheetClose
-                        render={<Link href="/dashboard" />}
+                      <Link
+                        href="/dashboard"
                         className="flex items-center rounded-lg px-3 py-3 text-sm font-medium min-h-[44px] text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                       >
                         {t("dashboard")}
-                      </SheetClose>
+                      </Link>
                     </div>
                   ) : (
                     <div className="flex flex-col gap-2">
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-center text-muted-foreground hover:text-white"
-                        render={<Link href="/login" />}
-                      >
-                        {t("signIn")}
-                      </Button>
-                      <Button
-                        className="w-full justify-center"
-                        render={<Link href="/register" />}
-                      >
-                        {t("getStarted")}
-                      </Button>
+                      <Link href="/login">
+                        <Button variant="ghost" className="w-full justify-center text-muted-foreground hover:text-white">
+                          {t("signIn")}
+                        </Button>
+                      </Link>
+                      <Link href="/register">
+                        <Button className="w-full justify-center">
+                          {t("getStarted")}
+                        </Button>
+                      </Link>
                     </div>
                   )}
                 </div>

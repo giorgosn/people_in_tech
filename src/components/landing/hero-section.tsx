@@ -42,13 +42,17 @@ export function HeroSection({ stats }: HeroSectionProps) {
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Button size="lg" className="h-12 gap-2 px-8 text-base" render={<Link href="/discover" />}>
-              {t("exploreCompanies")}
-              <ArrowRight className="size-4" />
-            </Button>
-            <Button variant="outline" size="lg" className="h-12 border-white/[0.06] bg-white/[0.06] px-8 text-base hover:bg-white/[0.1]" render={<Link href="/discover" />}>
-              {t("imACompany")}
-            </Button>
+            <Link href="/discover">
+              <Button size="lg" className="h-12 gap-2 px-8 text-base">
+                {t("exploreCompanies")}
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+            <Link href="/discover">
+              <Button variant="outline" size="lg" className="h-12 border-white/[0.06] bg-white/[0.06] px-8 text-base hover:bg-white/[0.1]">
+                {t("imACompany")}
+              </Button>
+            </Link>
           </div>
 
           <div className="mt-20 grid w-full max-w-2xl grid-cols-2 gap-0 rounded-2xl border border-white/[0.06] bg-card p-6 md:grid-cols-4 md:gap-0 md:divide-x md:divide-white/[0.06]">

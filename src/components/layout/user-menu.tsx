@@ -49,10 +49,12 @@ export function UserMenu() {
           </Badge>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href="/dashboard" />}>
-          <LayoutDashboard className="size-4" />
-          {t("dashboard")}
-        </DropdownMenuItem>
+        <Link href="/dashboard">
+          <DropdownMenuItem>
+            <LayoutDashboard className="size-4" />
+            {t("dashboard")}
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => signOut({ callbackUrl: "/" })}

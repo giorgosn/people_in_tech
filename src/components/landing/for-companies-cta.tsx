@@ -18,14 +18,12 @@ export function ForCompaniesCta() {
           <p className="mt-4 max-w-xl text-muted-foreground">
             {t("forCompaniesSubtitle")}
           </p>
-          <Button
-            size="lg"
-            className="mt-8 h-12 gap-2 px-8 text-base"
-            render={<Link href="/discover" />}
-          >
-            {t("claimPage")}
-            <ArrowRight className="size-4" />
-          </Button>
+          <Link href="/discover">
+            <Button size="lg" className="mt-8 h-12 gap-2 px-8 text-base">
+              {t("claimPage")}
+              <ArrowRight className="size-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
