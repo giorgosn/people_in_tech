@@ -1,0 +1,142 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Calendar, Users, MapPin, Factory, Globe } from "lucide-react";
+
+interface AboutTabProps {
+  description: string | null;
+  technologies: string[];
+  founded: number | null;
+  size: string;
+  locations: string[];
+  industry: string;
+  website: string | null;
+}
+
+const SIZE_MAP: Record<string, string> = {
+  TINY: "1-10 employees",
+  SMALL: "11-50 employees",
+  MEDIUM: "51-200 employees",
+  LARGE: "200+ employees",
+};
+
+export function AboutTab({
+  description,
+  technologies,
+  founded,
+  size,
+  locations,
+  industry,
+  website,
+}: AboutTabProps) {
+  const t = useTranslations("company");
+
+  const paragraphs = description
+    ? description.split("\n").filter((p) => p.trim().length > 0)
+    : [];
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+      {/* Main content */}
+      <div className="space-y-6">
+        {/* Description */}
+        {paragraphs.length > 0 && (
+          <div className="space-y-4">
+            {paragraphs.map((paragraph, i) => (
+              <p key={i} className="leading-relaxed text-muted-foreground">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {/* Technologies */}
+        {technologies.length > 0 && (
+          <div>
+            <Separator className="mb-6" />
+            <h3 className="mb-4 text-lg font-semibold text-foreground">
+              {t("technologies")}
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {technologies.map((tech) => (
+                <Badge key={tech} variant="secondary">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Company Info sidebar */}
+      <div className="lg:sticky lg:top-24">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("companyInfo")}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {founded && (
+              <div className="flex items-center gap-3 text-sm">
+                <Calendar className="size-4 shrink-0 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">{t("founded")}</p>
+                  <p className="font-medium text-foreground">{founded}</p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center gap-3 text-sm">
+              <Users className="size-4 shrink-0 text-muted-foreground" />
+              <div>
+                <p className="text-xs text-muted-foreground">{t("size")}</p>
+                <p className="font-medium text-foreground">
+                  {SIZE_MAP[size] || size}
+                </p>
+              </div>
+            </div>
+
+            {locations.length > 0 && (
+              <div className="flex items-center gap-3 text-sm">
+                <MapPin className="size-4 shrink-0 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    {t("headquarters")}
+                  </p>
+                  <p className="font-medium text-foreground">{locations[0]}</p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center gap-3 text-sm">
+              <Factory className="size-4 shrink-0 text-muted-foreground" />
+              <div>
+                <p className="text-xs text-muted-foreground">{t("industry")}</p>
+                <p className="font-medium text-foreground">{industry}</p>
+              </div>
+            </div>
+
+            {website && (
+              <div className="flex items-center gap-3 text-sm">
+                <Globe className="size-4 shrink-0 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">{t("website")}</p>
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {new URL(website).hostname.replace("www.", "")}
+                  </a>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
