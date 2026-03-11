@@ -284,7 +284,7 @@ export function CompaniesTable() {
         </div>
       ) : (
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-white/[0.05]">
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Industry</TableHead>
@@ -297,7 +297,7 @@ export function CompaniesTable() {
           </TableHeader>
           <TableBody>
             {companies.length === 0 ? (
-              <TableRow>
+              <TableRow className="border-white/[0.06] hover:bg-white/[0.03]">
                 <TableCell
                   colSpan={7}
                   className="text-center text-muted-foreground py-8"
@@ -307,7 +307,7 @@ export function CompaniesTable() {
               </TableRow>
             ) : (
               companies.map((company) => (
-                <TableRow key={company.id}>
+                <TableRow key={company.id} className="border-white/[0.06] hover:bg-white/[0.03]">
                   <TableCell className="font-medium">
                     {company.name}
                   </TableCell>

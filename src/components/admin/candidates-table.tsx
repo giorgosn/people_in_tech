@@ -142,7 +142,7 @@ export function CandidatesTable() {
         </div>
       ) : (
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-white/[0.05]">
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
@@ -153,7 +153,7 @@ export function CandidatesTable() {
           </TableHeader>
           <TableBody>
             {candidates.length === 0 ? (
-              <TableRow>
+              <TableRow className="border-white/[0.06] hover:bg-white/[0.03]">
                 <TableCell
                   colSpan={5}
                   className="text-center text-muted-foreground py-8"
@@ -163,7 +163,7 @@ export function CandidatesTable() {
               </TableRow>
             ) : (
               candidates.map((candidate) => (
-                <TableRow key={candidate.id}>
+                <TableRow key={candidate.id} className="border-white/[0.06] hover:bg-white/[0.03]">
                   <TableCell className="font-medium">
                     {candidate.name}
                   </TableCell>

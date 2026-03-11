@@ -151,7 +151,7 @@ export function JobsTable() {
         </div>
       ) : (
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-white/[0.05]">
             <TableRow>
               <TableHead>Title</TableHead>
               <TableHead>Company</TableHead>
@@ -164,7 +164,7 @@ export function JobsTable() {
           </TableHeader>
           <TableBody>
             {jobs.length === 0 ? (
-              <TableRow>
+              <TableRow className="border-white/[0.06] hover:bg-white/[0.03]">
                 <TableCell
                   colSpan={7}
                   className="text-center text-muted-foreground py-8"
@@ -174,7 +174,7 @@ export function JobsTable() {
               </TableRow>
             ) : (
               jobs.map((job) => (
-                <TableRow key={job.id}>
+                <TableRow key={job.id} className="border-white/[0.06] hover:bg-white/[0.03]">
                   <TableCell className="font-medium">{job.title}</TableCell>
                   <TableCell>{job.companyName}</TableCell>
                   <TableCell className="text-muted-foreground">
