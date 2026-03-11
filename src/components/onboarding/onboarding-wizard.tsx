@@ -14,10 +14,10 @@ import {
 } from "@/lib/validations/onboarding";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { StepAbout } from "./step-about";
 import { StepInterests } from "./step-interests";
 import { StepPreferences } from "./step-preferences";
+import { cn } from "@/lib/utils";
 
 export function OnboardingWizard() {
   const t = useTranslations("onboarding");
@@ -25,6 +25,7 @@ export function OnboardingWizard() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [direction, setDirection] = useState<"forward" | "back">("forward");
 
   const {
     register,
@@ -65,10 +66,12 @@ export function OnboardingWizard() {
       const valid = await trigger(["roleInterests", "skills", "industries"]);
       if (!valid) return;
     }
+    setDirection("forward");
     setCurrentStep((prev) => Math.min(prev + 1, 3));
   }
 
   function handleBack() {
+    setDirection("back");
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   }
 
@@ -95,50 +98,55 @@ export function OnboardingWizard() {
     }
   }
 
-  const progressValue = (currentStep / 3) * 100;
-
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
-      <div className="w-full max-w-xl">
-        <div className="mb-6">
-          <p className="text-sm text-muted-foreground text-center mb-3">
-            {t("stepOf", { current: currentStep, total: 3 })}
-          </p>
-          <Progress value={progressValue} />
+      <div className="w-full max-w-[560px]">
+        <div className="mb-6 flex items-center justify-center gap-3">
+          {[1, 2, 3].map((step) => (
+            <div
+              key={step}
+              className={cn(
+                "size-2.5 rounded-full transition-colors",
+                step <= currentStep ? "bg-primary" : "bg-white/10"
+              )}
+            />
+          ))}
         </div>
 
-        <Card>
+        <Card className="border-white/[0.06]">
           <CardHeader>
             <CardTitle className="text-xl">{stepTitles[currentStep]}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)}>
-              {currentStep === 1 && (
-                <StepAbout
-                  register={register}
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                />
-              )}
+              <div key={currentStep} className={direction === "forward" ? "animate-slide-in-right" : "animate-slide-in-left"}>
+                {currentStep === 1 && (
+                  <StepAbout
+                    register={register}
+                    watch={watch}
+                    setValue={setValue}
+                    errors={errors}
+                  />
+                )}
 
-              {currentStep === 2 && (
-                <StepInterests
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                />
-              )}
+                {currentStep === 2 && (
+                  <StepInterests
+                    watch={watch}
+                    setValue={setValue}
+                    errors={errors}
+                  />
+                )}
 
-              {currentStep === 3 && (
-                <StepPreferences watch={watch} setValue={setValue} />
-              )}
+                {currentStep === 3 && (
+                  <StepPreferences watch={watch} setValue={setValue} />
+                )}
+              </div>
 
               <div className="flex justify-between mt-8">
                 {currentStep > 1 ? (
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     onClick={handleBack}
                     size="lg"
                   >
